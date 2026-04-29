@@ -23,11 +23,11 @@ export function AppSidebar() {
         <div className="px-4 py-5 border-b border-sidebar-border">
           <div className="flex items-center gap-2">
             <div className="h-8 w-8 rounded-md bg-gradient-primary shadow-neon flex items-center justify-center font-display font-black text-primary-foreground">
-              R
+              G
             </div>
             {!collapsed && (
               <div>
-                <div className="font-display font-bold tracking-wider text-sm leading-none text-glow">RENTAL.4907</div>
+                <div className="font-display font-bold tracking-wider text-sm leading-none text-glow">GAMELENDX</div>
                 <div className="text-[9px] tracking-[0.25em] text-muted-foreground mt-1">DECENTRALIZED</div>
               </div>
             )}
