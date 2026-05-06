@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
-import { WalletButton } from "@/components/WalletButton";
+import { UserMenu } from "@/components/UserMenu";
 
 export default function AppLayout() {
   return (
@@ -17,7 +17,7 @@ export default function AppLayout() {
                 CHAIN: POLYGON · ERC-4907
               </div>
             </div>
-            <WalletButton />
+            <UserMenu />
           </header>
           <main className="flex-1">
             <Outlet />

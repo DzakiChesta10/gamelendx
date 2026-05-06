@@ -1,14 +1,14 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { LayoutGrid, Timer, PackagePlus, History } from "lucide-react";
+import { LayoutGrid, Timer, History, Shield } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
   SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar,
 } from "@/components/ui/sidebar";
+import { useAuth } from "@/hooks/useAuth";
 
-const items = [
+const baseItems = [
   { title: "Catalog", url: "/", icon: LayoutGrid },
   { title: "My Rentals", url: "/rentals", icon: Timer },
-  { title: "List Asset", url: "/list", icon: PackagePlus },
   { title: "History", url: "/history", icon: History },
 ];
 
@@ -16,6 +16,9 @@ export function AppSidebar() {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
   const { pathname } = useLocation();
+  const { isAdmin } = useAuth();
+
+  const items = isAdmin ? [...baseItems, { title: "Admin", url: "/admin", icon: Shield }] : baseItems;
 
   return (
     <Sidebar collapsible="icon" className="border-r border-sidebar-border">
