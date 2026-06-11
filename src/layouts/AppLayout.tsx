@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { UserMenu } from "@/components/UserMenu";
+import { WalletButton } from "@/components/WalletButton";
 
 export default function AppLayout() {
   return (
@@ -14,10 +15,13 @@ export default function AppLayout() {
               <SidebarTrigger />
               <div className="hidden md:flex items-center gap-2 text-[10px] font-display tracking-[0.3em] text-muted-foreground">
                 <span className="h-1.5 w-1.5 rounded-full bg-[hsl(var(--neon-lime))] animate-pulse" />
-                CHAIN: POLYGON · ERC-4907
+                CHAIN: SOLANA · METAPLEX RENTAL
               </div>
             </div>
-            <UserMenu />
+            <div className="flex items-center gap-2">
+              <WalletButton />
+              <UserMenu />
+            </div>
           </header>
           <main className="flex-1">
             <Outlet />
