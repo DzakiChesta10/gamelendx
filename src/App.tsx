@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/hooks/useAuth";
+import { SolanaWalletProvider } from "@/hooks/useSolanaWallet";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import AppLayout from "./layouts/AppLayout";
 import Catalog from "./pages/Catalog";
@@ -22,16 +23,18 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
-          <Routes>
-            <Route path="/auth" element={<Auth />} />
-            <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
-              <Route path="/" element={<Catalog />} />
-              <Route path="/rentals" element={<Rentals />} />
-              <Route path="/history" element={<Placeholder title="Rental History" />} />
-              <Route path="/admin" element={<ProtectedRoute adminOnly><Admin /></ProtectedRoute>} />
-            </Route>
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <SolanaWalletProvider>
+            <Routes>
+              <Route path="/auth" element={<Auth />} />
+              <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
+                <Route path="/" element={<Catalog />} />
+                <Route path="/rentals" element={<Rentals />} />
+                <Route path="/history" element={<Placeholder title="Rental History" />} />
+                <Route path="/admin" element={<ProtectedRoute adminOnly><Admin /></ProtectedRoute>} />
+              </Route>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </SolanaWalletProvider>
         </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
