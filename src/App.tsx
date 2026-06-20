@@ -11,6 +11,7 @@ import Catalog from "./pages/Catalog";
 import Rentals from "./pages/Rentals";
 import Admin from "./pages/Admin";
 import Auth from "./pages/Auth";
+import ResetPassword from "./pages/ResetPassword";
 import Placeholder from "./pages/Placeholder";
 import NotFound from "./pages/NotFound.tsx";
 
@@ -26,6 +27,7 @@ const App = () => (
           <SolanaWalletProvider>
             <Routes>
               <Route path="/auth" element={<Auth />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
               <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
                 <Route path="/" element={<Catalog />} />
                 <Route path="/rentals" element={<Rentals />} />
