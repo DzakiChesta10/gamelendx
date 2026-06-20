@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { z } from "zod";
-import { Gamepad2, ShieldCheck, User as UserIcon } from "lucide-react";
+import { Gamepad2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
@@ -9,41 +9,21 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { toast } from "sonner";
-import { cn } from "@/lib/utils";
 
 const emailSchema = z.string().trim().email("Invalid email").max(255);
 const passwordSchema = z.string().min(6, "Min 6 characters").max(72);
 const usernameSchema = z.string().trim().min(3, "Min 3 chars").max(30);
 
-const DEMO = {
-  admin: { email: "admin@gamelendx.com", password: "admin123" },
-  user: { email: "user@gamelendx.com", password: "user1234" },
-} as const;
-
-type DemoRole = keyof typeof DEMO;
-
 export default function Auth() {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
-  const [tab, setTab] = useState("demo");
+  const [tab, setTab] = useState("login");
   const [busy, setBusy] = useState(false);
-  const [demoRole, setDemoRole] = useState<DemoRole>("admin");
   const [form, setForm] = useState({ email: "", password: "", username: "", display_name: "" });
 
   useEffect(() => { document.title = "Sign in · GameLendX"; }, []);
   if (loading) return null;
   if (user) return <Navigate to="/" replace />;
-
-  async function demoSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    const creds = DEMO[demoRole];
-    setBusy(true);
-    const { error } = await supabase.auth.signInWithPassword(creds);
-    setBusy(false);
-    if (error) return toast.error(error.message);
-    toast.success(demoRole === "admin" ? "Masuk sebagai Admin" : "Masuk sebagai User");
-    navigate("/");
-  }
 
   async function login(e: React.FormEvent) {
     e.preventDefault();
@@ -81,7 +61,7 @@ export default function Auth() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-8 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
       <div className="absolute inset-0 grid-bg opacity-30" />
       <div className="absolute -top-32 -left-32 h-96 w-96 rounded-full bg-primary/20 blur-3xl" />
       <div className="absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-accent/20 blur-3xl" />
@@ -96,53 +76,10 @@ export default function Auth() {
 
         <div className="rounded-2xl border border-primary/30 bg-card/80 backdrop-blur-xl p-6 shadow-neon">
           <Tabs value={tab} onValueChange={setTab}>
-            <TabsList className="grid grid-cols-3 w-full bg-muted/30 mb-6">
-              <TabsTrigger value="demo" className="font-display tracking-wider data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">DEMO</TabsTrigger>
+            <TabsList className="grid grid-cols-2 w-full bg-muted/30 mb-6">
               <TabsTrigger value="login" className="font-display tracking-wider data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">LOGIN</TabsTrigger>
               <TabsTrigger value="signup" className="font-display tracking-wider data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">SIGN UP</TabsTrigger>
             </TabsList>
-
-            <TabsContent value="demo">
-              <form onSubmit={demoSubmit} className="space-y-5">
-                <div>
-                  <Label className="text-xs font-display tracking-widest text-muted-foreground">PILIH PERAN</Label>
-                  <div className="grid grid-cols-2 gap-3 mt-2">
-                    <RoleCard
-                      active={demoRole === "admin"}
-                      onClick={() => setDemoRole("admin")}
-                      icon={<ShieldCheck className="h-5 w-5" />}
-                      label="ADMIN"
-                      sub="Kelola rental & user"
-                    />
-                    <RoleCard
-                      active={demoRole === "user"}
-                      onClick={() => setDemoRole("user")}
-                      icon={<UserIcon className="h-5 w-5" />}
-                      label="USER"
-                      sub="Sewa game"
-                    />
-                  </div>
-                </div>
-
-                <div className="rounded-lg border border-border/60 bg-muted/20 p-3 space-y-1.5 text-xs font-mono">
-                  <div className="flex justify-between gap-2">
-                    <span className="text-muted-foreground">email</span>
-                    <span className="text-foreground truncate">{DEMO[demoRole].email}</span>
-                  </div>
-                  <div className="flex justify-between gap-2">
-                    <span className="text-muted-foreground">password</span>
-                    <span className="text-foreground">{DEMO[demoRole].password}</span>
-                  </div>
-                </div>
-
-                <Button disabled={busy} className="w-full h-11 bg-gradient-primary text-primary-foreground font-display font-bold tracking-widest shadow-neon">
-                  {busy ? "MASUK…" : `SUBMIT — ${demoRole.toUpperCase()}`}
-                </Button>
-                <p className="text-[10px] text-center text-muted-foreground font-display tracking-widest">
-                  AKUN DEMO • UNTUK PRESENTASI DOSEN
-                </p>
-              </form>
-            </TabsContent>
 
             <TabsContent value="login">
               <form onSubmit={login} className="space-y-4">
@@ -173,27 +110,6 @@ export default function Auth() {
         </p>
       </div>
     </div>
-  );
-}
-
-function RoleCard({ active, onClick, icon, label, sub }: { active: boolean; onClick: () => void; icon: React.ReactNode; label: string; sub: string }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={cn(
-        "rounded-lg border p-3 text-left transition-all",
-        active
-          ? "border-primary bg-primary/10 shadow-neon"
-          : "border-border bg-muted/20 hover:border-primary/50 hover:bg-muted/30"
-      )}
-    >
-      <div className={cn("flex items-center gap-2 mb-1", active ? "text-primary" : "text-foreground")}>
-        {icon}
-        <span className="font-display font-bold tracking-widest text-sm">{label}</span>
-      </div>
-      <div className="text-[10px] text-muted-foreground">{sub}</div>
-    </button>
   );
 }
 
