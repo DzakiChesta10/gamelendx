@@ -19,8 +19,6 @@ export default function Auth() {
   const navigate = useNavigate();
   const [tab, setTab] = useState("login");
   const [busy, setBusy] = useState(false);
-  const [forgotOpen, setForgotOpen] = useState(false);
-  const [forgotEmail, setForgotEmail] = useState("");
   const [form, setForm] = useState({ email: "", password: "", username: "", display_name: "" });
 
   useEffect(() => { document.title = "Sign in · GameLendX"; }, []);
@@ -62,21 +60,6 @@ export default function Auth() {
     navigate("/");
   }
 
-  async function sendReset(e: React.FormEvent) {
-    e.preventDefault();
-    try { emailSchema.parse(forgotEmail); }
-    catch (err: any) { return toast.error(err.errors?.[0]?.message ?? "Invalid email"); }
-    setBusy(true);
-    const { error } = await supabase.auth.resetPasswordForEmail(forgotEmail, {
-      redirectTo: `${window.location.origin}/reset-password`,
-    });
-    setBusy(false);
-    if (error) return toast.error(error.message);
-    toast.success("Recovery link sent — check your email");
-    setForgotOpen(false);
-    setForgotEmail("");
-  }
-
   return (
     <div className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
       <div className="absolute inset-0 grid-bg opacity-30" />
@@ -99,33 +82,13 @@ export default function Auth() {
             </TabsList>
 
             <TabsContent value="login">
-              {!forgotOpen ? (
-                <form onSubmit={login} className="space-y-4">
-                  <Field label="Email" type="email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} />
-                  <Field label="Password" type="password" value={form.password} onChange={(v) => setForm({ ...form, password: v })} />
-                  <div className="flex justify-end -mt-2">
-                    <button type="button" onClick={() => { setForgotEmail(form.email); setForgotOpen(true); }} className="text-xs font-display tracking-widest text-primary hover:text-glow">
-                      FORGOT PASSWORD?
-                    </button>
-                  </div>
-                  <Button disabled={busy} className="w-full h-11 bg-gradient-primary text-primary-foreground font-display font-bold tracking-widest shadow-neon">
-                    {busy ? "SIGNING IN…" : "SIGN IN"}
-                  </Button>
-                </form>
-              ) : (
-                <form onSubmit={sendReset} className="space-y-4">
-                  <p className="text-xs text-muted-foreground font-display tracking-wider">
-                    Enter your account email. We'll send a recovery link.
-                  </p>
-                  <Field label="Email" type="email" value={forgotEmail} onChange={setForgotEmail} />
-                  <Button disabled={busy} className="w-full h-11 bg-gradient-primary text-primary-foreground font-display font-bold tracking-widest shadow-neon">
-                    {busy ? "SENDING…" : "SEND RECOVERY LINK"}
-                  </Button>
-                  <button type="button" onClick={() => setForgotOpen(false)} className="w-full text-xs font-display tracking-widest text-muted-foreground hover:text-primary">
-                    ← BACK TO LOGIN
-                  </button>
-                </form>
-              )}
+              <form onSubmit={login} className="space-y-4">
+                <Field label="Email" type="email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} />
+                <Field label="Password" type="password" value={form.password} onChange={(v) => setForm({ ...form, password: v })} />
+                <Button disabled={busy} className="w-full h-11 bg-gradient-primary text-primary-foreground font-display font-bold tracking-widest shadow-neon">
+                  {busy ? "SIGNING IN…" : "SIGN IN"}
+                </Button>
+              </form>
             </TabsContent>
 
             <TabsContent value="signup">
