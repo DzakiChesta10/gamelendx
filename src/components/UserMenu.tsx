@@ -12,7 +12,7 @@ export function UserMenu() {
   const navigate = useNavigate();
   if (!user) {
     return (
-      <Button onClick={() => navigate("/auth")} className="bg-gradient-primary text-primary-foreground font-display font-bold tracking-widest shadow-neon">
+      <Button size="sm" onClick={() => navigate("/auth")} className="bg-gradient-primary text-primary-foreground font-display font-bold tracking-widest shadow-neon h-9 px-3">
         Sign In
       </Button>
     );
@@ -21,10 +21,10 @@ export function UserMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="border-primary/40 text-primary hover:bg-primary/10">
-          <span className={`h-2 w-2 rounded-full mr-2 animate-pulse ${isAdmin ? "bg-accent" : "bg-[hsl(var(--neon-lime))]"}`} />
-          <span className="max-w-[140px] truncate">{label}</span>
-          {isAdmin && <span className="ml-2 text-[10px] font-display tracking-widest text-accent">ADMIN</span>}
+        <Button size="sm" variant="outline" className="border-primary/40 text-primary hover:bg-primary/10 h-9 px-2.5">
+          <span className={`h-2 w-2 rounded-full sm:mr-2 animate-pulse ${isAdmin ? "bg-accent" : "bg-[hsl(var(--neon-lime))]"}`} />
+          <span className="hidden sm:inline max-w-[140px] truncate">{label}</span>
+          {isAdmin && <span className="ml-1 sm:ml-2 text-[10px] font-display tracking-widest text-accent">ADMIN</span>}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
