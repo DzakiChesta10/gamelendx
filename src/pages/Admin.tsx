@@ -100,6 +100,7 @@ export default function Admin() {
       </div>
 
       <div className="rounded-xl border border-border bg-card/50 overflow-x-auto">
+        <Table className="min-w-[760px]">
           <TableHeader>
             <TableRow className="hover:bg-transparent">
               <TableHead className="font-display tracking-widest text-[10px]">RENTER</TableHead>
