@@ -152,10 +152,10 @@ export default function Admin() {
 
 function Stat({ icon, label, value, accent }: { icon: React.ReactNode; label: string; value: string; accent?: boolean }) {
   return (
-    <div className={`rounded-xl border bg-gradient-card p-4 ${accent ? "border-accent/40 shadow-magenta" : "border-border"}`}>
+    <div className={`rounded-xl border bg-gradient-card p-3 sm:p-4 ${accent ? "border-accent/40 shadow-magenta" : "border-border"}`}>
       <div className="flex items-center justify-between text-muted-foreground mb-1">{icon}</div>
-      <div className={`font-display text-2xl font-black ${accent ? "text-accent text-glow-magenta" : "text-primary text-glow"}`}>{value}</div>
-      <div className="text-[10px] tracking-[0.25em] text-muted-foreground mt-1">{label}</div>
+      <div className={`font-display text-xl sm:text-2xl font-black truncate ${accent ? "text-accent text-glow-magenta" : "text-primary text-glow"}`}>{value}</div>
+      <div className="text-[9px] sm:text-[10px] tracking-[0.2em] sm:tracking-[0.25em] text-muted-foreground mt-1">{label}</div>
     </div>
   );
 }
