@@ -15,10 +15,11 @@ export function WalletButton() {
       <Button
         onClick={connect}
         disabled={connecting}
-        className="bg-gradient-primary text-primary-foreground font-display font-bold tracking-widest hover:opacity-90 shadow-neon"
+        size="sm"
+        className="bg-gradient-primary text-primary-foreground font-display font-bold tracking-widest hover:opacity-90 shadow-neon h-9 px-2.5 sm:px-4"
       >
-        <Wallet className="mr-2 h-4 w-4" />
-        {connecting ? "CONNECTING…" : "CONNECT PHANTOM"}
+        <Wallet className="h-4 w-4 sm:mr-2" />
+        <span className="hidden sm:inline">{connecting ? "CONNECTING…" : "CONNECT PHANTOM"}</span>
       </Button>
     );
   }
@@ -28,10 +29,10 @@ export function WalletButton() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="font-mono border-primary/40 text-primary hover:bg-primary/10">
-          <span className="h-2 w-2 rounded-full bg-[hsl(var(--neon-lime))] mr-2 animate-pulse" />
-          {short}
-          <ChevronDown className="ml-2 h-3 w-3" />
+        <Button size="sm" variant="outline" className="font-mono border-primary/40 text-primary hover:bg-primary/10 h-9 px-2.5">
+          <span className="h-2 w-2 rounded-full bg-[hsl(var(--neon-lime))] sm:mr-2 animate-pulse" />
+          <span className="hidden sm:inline">{short}</span>
+          <ChevronDown className="ml-1 sm:ml-2 h-3 w-3" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-64">

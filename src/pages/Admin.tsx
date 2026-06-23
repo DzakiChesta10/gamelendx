@@ -68,39 +68,39 @@ export default function Admin() {
   }, [rows, now]);
 
   return (
-    <div className="px-6 md:px-10 py-10 max-w-7xl">
-      <header className="mb-8">
+    <div className="px-4 sm:px-6 md:px-10 py-8 sm:py-10 max-w-7xl mx-auto">
+      <header className="mb-6 sm:mb-8">
         <div className="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/5 px-3 py-1 text-[10px] font-display tracking-[0.3em] text-accent mb-4">
           <Shield className="h-3 w-3" /> ADMIN CONTROL
         </div>
-        <h1 className="font-display text-4xl font-black">Rental Operations</h1>
-        <p className="text-muted-foreground mt-2">
+        <h1 className="font-display text-3xl sm:text-4xl font-black">Rental Operations</h1>
+        <p className="text-muted-foreground mt-2 text-sm sm:text-base">
           Monitor every active lease across the protocol — who's renting what, for how many days, and the full history.
         </p>
       </header>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
         <Stat icon={<TimerIcon className="h-4 w-4" />} label="ACTIVE LEASES" value={String(stats.active)} />
         <Stat icon={<Users className="h-4 w-4" />} label="UNIQUE RENTERS" value={String(stats.uniqueRenters)} />
         <Stat icon={<Coins className="h-4 w-4" />} label="TOTAL REVENUE" value={`${stats.revenue} GAME`} accent />
         <Stat icon={<Shield className="h-4 w-4" />} label="ALL TIME" value={String(stats.total)} />
       </div>
 
-      <div className="flex flex-col md:flex-row gap-3 mb-4">
-        <div className="relative flex-1 max-w-md">
+      <div className="flex flex-col sm:flex-row gap-3 mb-4">
+        <div className="relative flex-1 sm:max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search by user or asset…" className="pl-9 bg-muted/30" />
         </div>
         <Tabs value={tab} onValueChange={(v) => setTab(v as any)}>
-          <TabsList className="bg-muted/30">
-            <TabsTrigger value="active" className="font-display tracking-wide text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">ACTIVE</TabsTrigger>
-            <TabsTrigger value="all" className="font-display tracking-wide text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">HISTORY</TabsTrigger>
+          <TabsList className="bg-muted/30 w-full sm:w-auto">
+            <TabsTrigger value="active" className="flex-1 sm:flex-none font-display tracking-wide text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">ACTIVE</TabsTrigger>
+            <TabsTrigger value="all" className="flex-1 sm:flex-none font-display tracking-wide text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">HISTORY</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
 
-      <div className="rounded-xl border border-border bg-card/50 overflow-hidden">
-        <Table>
+      <div className="rounded-xl border border-border bg-card/50 overflow-x-auto">
+        <Table className="min-w-[760px]">
           <TableHeader>
             <TableRow className="hover:bg-transparent">
               <TableHead className="font-display tracking-widest text-[10px]">RENTER</TableHead>
@@ -152,10 +152,10 @@ export default function Admin() {
 
 function Stat({ icon, label, value, accent }: { icon: React.ReactNode; label: string; value: string; accent?: boolean }) {
   return (
-    <div className={`rounded-xl border bg-gradient-card p-4 ${accent ? "border-accent/40 shadow-magenta" : "border-border"}`}>
+    <div className={`rounded-xl border bg-gradient-card p-3 sm:p-4 ${accent ? "border-accent/40 shadow-magenta" : "border-border"}`}>
       <div className="flex items-center justify-between text-muted-foreground mb-1">{icon}</div>
-      <div className={`font-display text-2xl font-black ${accent ? "text-accent text-glow-magenta" : "text-primary text-glow"}`}>{value}</div>
-      <div className="text-[10px] tracking-[0.25em] text-muted-foreground mt-1">{label}</div>
+      <div className={`font-display text-xl sm:text-2xl font-black truncate ${accent ? "text-accent text-glow-magenta" : "text-primary text-glow"}`}>{value}</div>
+      <div className="text-[9px] sm:text-[10px] tracking-[0.2em] sm:tracking-[0.25em] text-muted-foreground mt-1">{label}</div>
     </div>
   );
 }

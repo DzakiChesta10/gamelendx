@@ -40,18 +40,18 @@ export default function Rentals() {
   const expiringSoon = active.filter((r) => new Date(r.expires_at).getTime() / 1000 - now < 3600).length;
 
   return (
-    <div className="px-6 md:px-10 py-10 max-w-6xl">
-      <header className="mb-8">
+    <div className="px-4 sm:px-6 md:px-10 py-8 sm:py-10 max-w-6xl mx-auto">
+      <header className="mb-6 sm:mb-8">
         <div className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/5 px-3 py-1 text-[10px] font-display tracking-[0.3em] text-primary mb-4">
           <Timer className="h-3 w-3" /> ACTIVE LEASES
         </div>
-        <h1 className="font-display text-4xl font-black">My Rentals</h1>
-        <p className="text-muted-foreground mt-2">
+        <h1 className="font-display text-3xl sm:text-4xl font-black">My Rentals</h1>
+        <p className="text-muted-foreground mt-2 text-sm sm:text-base">
           Hak pakai (<code className="text-primary">userOf</code>) otomatis kembali ke owner saat timer ERC-4907 mencapai 0.
         </p>
       </header>
 
-      <div className="grid grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-8">
         <KPI label="ACTIVE" value={String(active.length)} />
         <KPI label="GAME SPENT" value={`${totalSpent}`} />
         <KPI label="EXPIRING <1H" value={String(expiringSoon)} accent />
@@ -60,11 +60,11 @@ export default function Rentals() {
       {loading ? (
         <div className="text-muted-foreground font-display tracking-widest">LOADING…</div>
       ) : rentals.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-border p-12 text-center text-muted-foreground">
+        <div className="rounded-xl border border-dashed border-border p-8 sm:p-12 text-center text-muted-foreground">
           You haven't rented any assets yet. Browse the catalog to get started.
         </div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
           {rentals.map((r) => <RentalRow key={r.id} r={r} />)}
         </div>
       )}
@@ -100,9 +100,9 @@ function RentalRow({ r }: { r: Rental }) {
 
 function KPI({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
   return (
-    <div className={`rounded-xl border bg-gradient-card p-4 ${accent ? "border-accent/40 shadow-magenta" : "border-border"}`}>
-      <div className={`font-display text-3xl font-black ${accent ? "text-accent text-glow-magenta" : "text-primary text-glow"}`}>{value}</div>
-      <div className="text-[10px] tracking-[0.25em] text-muted-foreground mt-1">{label}</div>
+    <div className={`rounded-xl border bg-gradient-card p-3 sm:p-4 ${accent ? "border-accent/40 shadow-magenta" : "border-border"}`}>
+      <div className={`font-display text-2xl sm:text-3xl font-black ${accent ? "text-accent text-glow-magenta" : "text-primary text-glow"}`}>{value}</div>
+      <div className="text-[9px] sm:text-[10px] tracking-[0.2em] sm:tracking-[0.25em] text-muted-foreground mt-1">{label}</div>
     </div>
   );
 }
