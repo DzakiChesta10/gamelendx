@@ -14,6 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
+      assets: {
+        Row: {
+          attributes: Json
+          contract: string
+          created_at: string
+          game: string
+          id: string
+          image: string
+          max_days: number
+          name: string
+          owner: string
+          price_per_day: number
+          rarity: string
+          token_id: string
+          updated_at: string
+        }
+        Insert: {
+          attributes?: Json
+          contract?: string
+          created_at?: string
+          game: string
+          id?: string
+          image: string
+          max_days?: number
+          name: string
+          owner?: string
+          price_per_day?: number
+          rarity?: string
+          token_id?: string
+          updated_at?: string
+        }
+        Update: {
+          attributes?: Json
+          contract?: string
+          created_at?: string
+          game?: string
+          id?: string
+          image?: string
+          max_days?: number
+          name?: string
+          owner?: string
+          price_per_day?: number
+          rarity?: string
+          token_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
