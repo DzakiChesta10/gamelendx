@@ -6,10 +6,15 @@ import {
 } from "@/components/ui/sidebar";
 import { useAuth } from "@/hooks/useAuth";
 
-const baseItems = [
+const userItems = [
   { title: "Catalog", url: "/", icon: LayoutGrid },
   { title: "My Rentals", url: "/rentals", icon: Timer },
   { title: "History", url: "/history", icon: History },
+];
+
+const adminItems = [
+  { title: "Catalog", url: "/", icon: LayoutGrid },
+  { title: "Admin", url: "/admin", icon: Shield },
 ];
 
 export function AppSidebar() {
@@ -18,7 +23,7 @@ export function AppSidebar() {
   const { pathname } = useLocation();
   const { isAdmin } = useAuth();
 
-  const items = isAdmin ? [...baseItems, { title: "Admin", url: "/admin", icon: Shield }] : baseItems;
+  const items = isAdmin ? adminItems : userItems;
 
   return (
     <Sidebar collapsible="icon" className="border-r border-sidebar-border">

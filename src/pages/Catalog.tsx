@@ -1,26 +1,41 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Search, SlidersHorizontal } from "lucide-react";
-import { ASSETS } from "@/data/mockAssets";
+import { GameAsset, rowToAsset } from "@/data/mockAssets";
 import { AssetCard } from "@/components/AssetCard";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
-const games = ["All", ...Array.from(new Set(ASSETS.map((a) => a.game)))];
+import { supabase } from "@/integrations/supabase/client";
 
 export default function Catalog() {
   const [q, setQ] = useState("");
   const [game, setGame] = useState("All");
+  const [assets, setAssets] = useState<GameAsset[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    document.title = "Catalog · GameLendX";
+    (async () => {
+      const { data } = await supabase
+        .from("assets").select("*").order("created_at", { ascending: true });
+      setAssets((data ?? []).map(rowToAsset));
+      setLoading(false);
+    })();
+  }, []);
+
+  const games = useMemo(
+    () => ["All", ...Array.from(new Set(assets.map((a) => a.game)))],
+    [assets],
+  );
 
   const filtered = useMemo(() => {
-    return ASSETS.filter((a) =>
+    return assets.filter((a) =>
       (game === "All" || a.game === game) &&
       (q === "" || a.name.toLowerCase().includes(q.toLowerCase()))
     );
-  }, [q, game]);
+  }, [q, game, assets]);
 
   return (
     <div>
-      {/* Hero */}
       <section className="relative overflow-hidden border-b border-border">
         <div className="absolute inset-0 grid-bg opacity-40" />
         <div className="absolute -top-20 -right-20 h-80 w-80 rounded-full bg-primary/20 blur-3xl" />
@@ -38,14 +53,13 @@ export default function Catalog() {
             Owners list. Renters pay in $GAME. Smart contracts hand back access automatically when the timer hits zero — no middlemen, no manual returns.
           </p>
           <div className="mt-6 sm:mt-8 grid grid-cols-3 gap-4 sm:flex sm:flex-wrap sm:gap-6 text-xs font-display tracking-widest">
-            <Stat label="ASSETS LISTED" value="1,284" />
-            <Stat label="ACTIVE RENTALS" value="312" />
-            <Stat label="TVL" value="48.2K GAME" />
+            <Stat label="ASSETS LISTED" value={String(assets.length)} />
+            <Stat label="GAMES" value={String(games.length - 1)} />
+            <Stat label="PROTOCOL" value="ERC-4907" />
           </div>
         </div>
       </section>
 
-      {/* Filters */}
       <section className="px-4 sm:px-6 md:px-10 py-4 sm:py-6 sticky top-14 z-20 bg-background/80 backdrop-blur border-b border-border">
         <div className="flex flex-col md:flex-row md:items-center gap-3 max-w-6xl mx-auto">
           <div className="relative flex-1 md:max-w-md">
@@ -74,9 +88,10 @@ export default function Catalog() {
         </div>
       </section>
 
-      {/* Grid */}
       <section className="px-4 sm:px-6 md:px-10 py-6 sm:py-8 max-w-7xl mx-auto">
-        {filtered.length === 0 ? (
+        {loading ? (
+          <div className="text-center py-20 text-muted-foreground font-display tracking-wider">LOADING CATALOG…</div>
+        ) : filtered.length === 0 ? (
           <div className="text-center py-20 text-muted-foreground font-display tracking-wider">
             NO ASSETS MATCH YOUR FILTERS
           </div>
