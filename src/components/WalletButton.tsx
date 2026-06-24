@@ -19,7 +19,7 @@ export function WalletButton() {
         className="bg-gradient-primary text-primary-foreground font-display font-bold tracking-widest hover:opacity-90 shadow-neon h-9 px-2.5 sm:px-4"
       >
         <Wallet className="h-4 w-4 sm:mr-2" />
-        <span className="hidden sm:inline">{connecting ? "CONNECTING…" : "CONNECT PHANTOM"}</span>
+        <span className="hidden sm:inline">{connecting ? "CONNECTING…" : "CONNECT WALLET"}</span>
       </Button>
     );
   }
@@ -37,7 +37,7 @@ export function WalletButton() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-64">
         <DropdownMenuLabel className="font-display text-[10px] tracking-[0.25em] text-muted-foreground">
-          SOLANA · PHANTOM
+          SOLANA · DEMO WALLET
         </DropdownMenuLabel>
         <DropdownMenuItem
           onClick={() => {
