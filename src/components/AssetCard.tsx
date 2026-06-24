@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Clock, Coins, Zap } from "lucide-react";
-import { GameAsset, rarityColor } from "@/data/mockAssets";
+import { GameAsset, rarityColor, resolveImage } from "@/data/mockAssets";
 import { Button } from "@/components/ui/button";
 import {
   Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger,
 } from "@/components/ui/dialog";
 import { Slider } from "@/components/ui/slider";
 import { useRent } from "@/hooks/useRent";
+import { useAuth } from "@/hooks/useAuth";
 
 interface Props { asset: GameAsset }
 
@@ -14,12 +15,13 @@ export function AssetCard({ asset }: Props) {
   const [open, setOpen] = useState(false);
   const [days, setDays] = useState(3);
   const { execute, cost, isPending } = useRent(asset, days);
+  const { isAdmin } = useAuth();
 
   return (
     <article className="group relative overflow-hidden rounded-xl border border-border bg-gradient-card transition-all duration-500 hover:border-primary/50 hover:shadow-neon hover:-translate-y-1">
       <div className="relative aspect-square overflow-hidden">
         <img
-          src={asset.image}
+          src={resolveImage(asset.image)}
           alt={asset.name}
           loading="lazy"
           width={768}
