@@ -62,6 +62,11 @@ export function AssetCard({ asset }: Props) {
             </div>
           </div>
 
+          {isAdmin ? (
+            <span className="text-[10px] font-display tracking-[0.25em] text-accent border border-accent/40 rounded px-2 py-1">
+              ADMIN VIEW
+            </span>
+          ) : (
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
               <Button size="sm" className="bg-gradient-primary text-primary-foreground font-display font-bold tracking-wider hover:opacity-90">
@@ -110,6 +115,7 @@ export function AssetCard({ asset }: Props) {
               </div>
             </DialogContent>
           </Dialog>
+          )}
         </div>
       </div>
     </article>
