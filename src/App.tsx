@@ -11,6 +11,7 @@ import Catalog from "./pages/Catalog";
 import Rentals from "./pages/Rentals";
 import Admin from "./pages/Admin";
 import Auth from "./pages/Auth";
+import History from "./pages/History";
 import Placeholder from "./pages/Placeholder";
 import NotFound from "./pages/NotFound.tsx";
 
@@ -29,7 +30,7 @@ const App = () => (
               <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
                 <Route path="/" element={<Catalog />} />
                 <Route path="/rentals" element={<Rentals />} />
-                <Route path="/history" element={<Placeholder title="Rental History" />} />
+                <Route path="/history" element={<History />} />
                 <Route path="/admin" element={<ProtectedRoute adminOnly><Admin /></ProtectedRoute>} />
               </Route>
               <Route path="*" element={<NotFound />} />
